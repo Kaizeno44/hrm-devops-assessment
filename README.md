@@ -147,6 +147,26 @@ hrm-devops-assessment/
     ├── part-g-monitoring.md
     └── part-h-security.md
 
+## HTTPS Local Test
+
+Repo cấu hình Nginx với HTTPS (port 443). Cert self-signed dùng cho local test.
+
+### Tạo cert self-signed
+
+mkdir nginx/ssl -Force
+docker run --rm -v ${PWD}/nginx/ssl:/ssl alpine/openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /ssl/privkey.pem -out /ssl/fullchain.pem -subj "/C=VN/ST=HCM/L=HCM/O=HRMLabs/CN=localhost"
+
+### Test
+
+curl.exe -k https://localhost/health
+
+### HTTP → HTTPS Redirect
+
+Mọi request HTTP (port 80) tự động redirect sang HTTPS (port 443) với status 301.
+Ngoại lệ: /health được whitelist qua HTTP cho load balancer health check.
+
+Trong production, thay cert self-signed bằng cert thật (Let's Encrypt / cert tổ chức).
+
 ## Bảo mật
 
 - Không commit .env hoặc bất kỳ secret nào

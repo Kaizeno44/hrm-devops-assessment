@@ -160,13 +160,13 @@ Dockerfile:
 FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
 COPY . .
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 EXPOSE 3000
 ENV NODE_ENV=production PORT=3000
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 CMD wget -qO- http://localhost:3000/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 CMD node -e "require('http').get('http://127.0.0.1:3000/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
 CMD ["node", "server.js"]
 
 docker-compose.yml: xem file gốc trong repo
@@ -245,8 +245,8 @@ Chuyển tiếp request từ Nginx đến backend server (app Node.js ở localh
 
 Câu 21: Cấu hình HTTPS
 
-ssl_certificate     /path/fullchain.pem;
-ssl_certificate_key /path/privkey.pem;
+ssl_certificate     /etc/nginx/ssl/fullchain.pem;
+ssl_certificate_key /etc/nginx/ssl/privkey.pem;
 ssl_protocols       TLSv1.2 TLSv1.3;
 
 Dùng Let's Encrypt (certbot) để lấy cert miễn phí:
@@ -256,8 +256,8 @@ Câu 22: Redirect HTTP → HTTPS
 
 server {
     listen 80;
-    server_name hrmlabs.example.com;
-    return 301 https://$server_name$request_uri;
+    server_name localhost hrmlabs.example.com;
+    return 301 https://$host$request_uri;
 }
 
 Câu 23: Security headers cần thiết
