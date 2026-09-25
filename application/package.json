@@ -15,7 +15,7 @@
     "nodejs",
     "express"
   ],
-  "author": "Your Name",
+  "author": "Doan Tran Hai Nguyen",
   "license": "MIT",
   "dependencies": {
     "express": "^4.19.2"

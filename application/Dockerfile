@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-LABEL maintainer="your.email@example.com" \
+LABEL maintainer="nguyensbo@gmail.com" \
       description="HRM Labs demo application"
 
 WORKDIR /app
