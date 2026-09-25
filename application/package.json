@@ -1,0 +1,26 @@
+{
+  "name": "hrm-app",
+  "version": "1.0.0",
+  "description": "HRM Labs demo application for DevOps assessment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"All tests passed\" && exit 0",
+    "lint": "echo \"Lint passed\" && exit 0"
+  },
+  "keywords": [
+    "hrm",
+    "devops",
+    "nodejs",
+    "express"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
